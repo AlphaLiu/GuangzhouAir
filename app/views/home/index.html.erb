@@ -1,0 +1,53 @@
+<h1>广州市空气质量国控点 <sub>PM2.5</sub> 监测结果</h1>
+<p><%= @updated_at %></p>
+<table id="pm">
+  <thead>
+    <tr>
+      <th>监测站点</th>
+      <th>PM<sub>2.5</sub>浓度(最近1小时平均)</th>
+      <th>PM<sub>2.5</sub>浓度(最近24小时平均)</th>
+      <th>AQI(最近1小时)</th>
+      <th>等级</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @monitor_points %>
+      <% @monitor_points.each do |mp| %>
+        <tr>
+          <td><%= mp[:mp_name] %></td>
+          <td><%= mp[:pm25_avg_1hour] %> ug/m3</td>
+          <td><%= mp[:pm25_avg_24hours] %> ug/m3</td>
+          <td><%= mp[:aqi] %></td>
+          <td data-aqi="<%= mp[:aqi_desc_en] %>"><%= mp[:aqi_desc_cn] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>AQI图示</h2>
+<table class="aqi-intro">
+  <tr><td data-aqi="Good">0~50: 优良</td></tr>
+  <tr><td data-aqi="Moderate">51~100: 中等</td></tr>
+  <tr><td data-aqi="Unhealthy for Sensitive Groups">101~150: 敏感群体有害</td></tr>
+  <tr><td data-aqi="Unhealthy">151~200: 不健康</td></tr>
+  <tr><td data-aqi="Very Unhealthy">201~300: 非常不健康</td></tr>
+  <tr><td data-aqi="Hazardous">301~400: 有毒害一级</td></tr>
+  <tr><td data-aqi="Hazardous">401~500: 有毒害二级</td></tr>
+</table>
+
+<footer>
+<p>
+<small>
+  数据来源：<a href="http://www.gzepb.gov.cn/comm/pm25.asp">广州环境保护局</a>
+</small>
+</p>
+<p>
+<small>
+  参考: <a href="http://imtx.me/archives/1704.html">TwitterBot 之浙江空气质量报告 (PM2.5)</a>
+<br>
+        <a href="http://zjair.herokuapp.com/">浙江各城市 PM2.5监测数据</a>
+</small>
+</p>
+<p>&copy; copyright <a href="https://twitter.com/#!/alpha_liu">@alpha_liu</a></p>
+</footer>

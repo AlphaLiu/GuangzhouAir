@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GuangzhouAir</title>
+  <title><%= page_title %></title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <%= link_to(image_tag('fork_me_on_github_red.png', :style => 'position: absolute; top: 0; right: 0; border: 0;'), "https://AlphaLiu@github.com/AlphaLiu/GuangzhouAir.git") %>
 
 <%= yield %>
 

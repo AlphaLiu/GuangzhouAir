@@ -1,0 +1,109 @@
+/* ----------------------------
+ * simple reset
+ * ---------------------------- */
+
+html, body, ul, ol, li, form, fieldset, legend {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p { margin-top: 0; }
+
+fieldset,img { border: 0; }
+
+legend { color: #000; }
+
+li { list-style: none; }
+
+sup { vertical-align: text-top; }
+
+sub { vertical-align: text-bottom; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  vertical-align: top;
+  font-weight: normal;
+}
+
+input, textarea, select {
+  font-size: 110%;
+  line-height: 1.1;
+}
+
+abbr, acronym {
+  border-bottom: .1em dotted;
+  cursor: help;
+}
+
+/* custom */
+body {
+  margin: 10px auto;
+  width: 1000px;
+}
+
+table#pm {
+  margin: 20px auto;
+  width: 800px;
+  border: solid 2px #333;
+}
+
+table#pm tr {
+  border: solid 1px #ccc;
+}
+
+table#pm thead tr {
+  background: #060;
+  color: white;
+  font-weight: bold;
+}
+
+table#pm th, table#pm td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.aqi-intro td {
+  text-align: center;
+  height: 20px;
+}
+
+table td[data-aqi="Good"] {
+  background: #00e400;
+}
+
+table td[data-aqi="Moderate"] {
+  background: #ff0;
+}
+
+table td[data-aqi="Unhealthy for Sensitive Groups"] {
+  background: #ff7e00;
+}
+
+table td[data-aqi="Unhealthy"] {
+  background: #f00;
+}
+
+table td[data-aqi="Very Unhealthy"] {
+  background: #99004c;
+}
+
+table td[data-aqi="Hazardous"] {
+  background: #730023;
+}
+
+
+footer {
+  display: block;
+  border-top: solid 1px #ccc;
+  margin-top: 20px;
+}
+
+footer p {
+  margin: 10px;
+}
+

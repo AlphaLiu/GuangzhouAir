@@ -8,6 +8,24 @@ module Air
 		def self.get_gz_air
 			#get the Guangzhou monitor points' values
 			begin
+        monitor_points = parse_gz_data
+        monitor_points.each do |mp|
+          mp[:aqi] = aqi_pm25(mp[:pm25_avg_1hour].to_i)
+          mp[:aqi_category] = aqi_category(mp[:aqi])
+          mp[:aqi_desc_en] = convert_category_to_description(:category => mp[:aqi_category], :language => "en")
+          mp[:aqi_desc_cn] = convert_category_to_description(:category => mp[:aqi_category], :language => "cn")
+        end
+        monitor_points
+			rescue Exception => ex
+				puts "Exception #{ex}"
+        nil
+			end
+		end
+
+	private
+    def self.parse_gz_data
+			#get the Guangzhou monitor points' values
+			begin
 				date_css = "form table:first tr td b"
 				data_css = "form table:eq(2) tr:gt(2)"
 				gz_url = 'http://www.gzepb.gov.cn/comm/pm25.asp'
@@ -33,9 +51,6 @@ module Air
 						monitor_point[:o3_avg_24hours], 
 						monitor_point[:co_avg_1hour], 
 						monitor_point[:co_avg_24hours] = tr.css('td').map { |td| td.text.strip }
-					monitor_point[:aqi] = aqi_pm25(monitor_point[:pm25_avg_1hour].to_i).to_s
-					aqi_category(monitor_point[:aqi].to_i, monitor_point)
-
 					monitor_points << monitor_point
 
 				end
@@ -45,9 +60,9 @@ module Air
 				puts "Exception #{ex}"
 				nil
 			end
-		end
 
-	private
+    end
+
 		def self.linear(aqi_high,aqi_low,conc_high,conc_low,conc)
 			a=((conc-conc_low)/(conc_high-conc_low))*(aqi_high-aqi_low)+aqi_low
 			a.round
@@ -66,9 +81,7 @@ module Air
 			end
 		end
 
-		def self.aqi_category(aqi, monitor_point)
-			descriptions_cn = ["优良","中等", "敏感群体有害", "不健康", "非常不健康", "有毒害一级", "有毒害二级", "尼玛！PM2.5爆表啦！"]
-			descriptions_en = ["Good","Moderate", "Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy", "Hazardous", "Hazardous", "Damn! PM2.5 is out of range!"]
+		def self.aqi_category(aqi)
 			#descriptions = ['1', '2', '3', '4', '5', '6']
 			level = case aqi
 							when 0..50 then 0	
@@ -78,30 +91,43 @@ module Air
 							when 201..300 then 4
 							when 301..400 then 5
 							when 401..500 then 6
-							else 1
+							else 7
 							end 
-			monitor_point[:aqi_level] = level
-			monitor_point[:aqi_desc_cn] = descriptions_cn[level]
-			monitor_point[:aqi_desc_en] = descriptions_en[level]
 		end
+    
+    def self.convert_category_to_description(options = {})
+			descriptions_cn = ["优良","中等", "敏感群体有害", "不健康", "非常不健康", "有毒害一级", "有毒害二级", "尼玛！PM2.5爆表啦！"]
+			descriptions_en = ["Good","Moderate", "Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy", "Hazardous", "Hazardous", "Damn! PM2.5 is out of range!"]
+
+      #duplicate code, should use meta programming to remove
+      category = options[:category]
+      lang = options[:language]
+
+      case lang
+      when "en" then descriptions_en[category]
+      when "cn" then descriptions_cn[category]
+      else ""
+      end
+
+    end
 	end
 end
 
 #mps = Air::AirQuality.get_gz_air
 #if mps
-	#mps.each do |mp|
-		#puts mp[:mp_name]
-		#puts mp[:updated_at]
-		#puts mp[:pm25_avg_1hour]
-		#puts mp[:pm25_avg_24hours]
-		#puts mp[:o3_avg_1hour]
-		#puts mp[:o3_avg_24hours]
-		#puts mp[:co_avg_1hour]
-		#puts mp[:co_avg_24hours]
-		#puts mp[:aqi]
-		#puts mp[:aqi_level]
-		#puts mp[:aqi_desc_cn]
-		#puts mp[:aqi_desc_en]
-		#puts '='*20
-	#end
+  #mps.each do |mp|
+    #puts mp[:mp_name]
+    #puts mp[:updated_at]
+    #puts mp[:pm25_avg_1hour]
+    #puts mp[:pm25_avg_24hours]
+    #puts mp[:o3_avg_1hour]
+    #puts mp[:o3_avg_24hours]
+    #puts mp[:co_avg_1hour]
+    #puts mp[:co_avg_24hours]
+    #puts mp[:aqi]
+    #puts mp[:aqi_category]
+    #puts mp[:aqi_desc_cn]
+    #puts mp[:aqi_desc_en]
+    #puts '='*20
+  #end
 #end

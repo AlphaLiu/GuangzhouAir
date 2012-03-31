@@ -5,6 +5,13 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <script type="text/javascript">
+    (function() {
+     var c = document.createElement('script'); c.type = 'text/javascript'; c.async = true;
+     c.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.clicki.cn/boot/45484';
+     var h = document.getElementsByTagName('script')[0]; h.parentNode.insertBefore(c, h);
+     })();
+  </script>
 </head>
 <body>
   <%= link_to(image_tag('fork_me_on_github_red.png', :style => 'position: absolute; top: 0; right: 0; border: 0;'), "https://AlphaLiu@github.com/AlphaLiu/GuangzhouAir") %>
